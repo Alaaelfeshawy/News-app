@@ -4,11 +4,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-<!--    <androidx.drawerlayout.widget.DrawerLayout-->
-<!--        android:id="@+id/drawer"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:fitsSystemWindows="true">-->
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -24,6 +24,7 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/black"
                     app:popupTheme="@style/AppTheme.PopupOverlay"
                     />
             </com.google.android.material.appbar.AppBarLayout>
@@ -36,12 +37,12 @@
                 app:defaultNavHost="true"
                 app:navGraph="@navigation/nav_graph" />
         </RelativeLayout>
-<!--        <com.google.android.material.navigation.NavigationView-->
-<!--            android:id="@+id/navigation_view"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:layout_gravity="start"-->
-<!--            app:headerLayout="@layout/nav_header"-->
-<!--            app:menu="@menu/drawer_menu" />-->
-<!--    </androidx.drawerlayout.widget.DrawerLayout>-->
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/navigation_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:headerLayout="@layout/nav_header"
+            app:menu="@menu/drawer_menu" />
+    </androidx.drawerlayout.widget.DrawerLayout>
 </layout>

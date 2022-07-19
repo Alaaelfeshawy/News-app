@@ -56,7 +56,7 @@ abstract class BaseFragment<T : ViewDataBinding?> : Fragment() {
     }
 
     fun hideKeyboard() {
-        baseActivity?.hideKeyboard()
+//        baseActivity?.hideKeyboard()
     }
 
     override fun onDestroyView() {
