@@ -1,19 +1,23 @@
-package com.example.newsapp
+package com.example.newsapp.ui
 
+import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.GravityCompat
-import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
-import com.example.newsapp.base.BaseActivity
+import com.example.newsapp.R
+import com.example.newsapp.ui.base.BaseActivity
 import com.example.newsapp.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
+import dagger.hilt.android.AndroidEntryPoint
 
 
-class MainActivity : BaseActivity<ActivityMainBinding>()
+@AndroidEntryPoint
+class HomeActivity : BaseActivity<ActivityMainBinding>()
     ,NavigationView.OnNavigationItemSelectedListener
 {
     private  var binding: ActivityMainBinding? = null
@@ -72,5 +76,33 @@ class MainActivity : BaseActivity<ActivityMainBinding>()
         }
         binding?.drawer?.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.side_menu, menu)
+        val searchItem: MenuItem? = menu.findItem(R.id.action_search)
+        val searchView: SearchView = searchItem?.actionView as SearchView
+        searchView.queryHint="Search"
+        searchView.maxWidth = Integer.MAX_VALUE
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return false
+            }
+            override fun onQueryTextChange(s: String): Boolean {
+                //TODO Search
+                return false
+            }
+        })
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_search -> {
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

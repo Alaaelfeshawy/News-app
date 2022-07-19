@@ -3,6 +3,7 @@
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="1.7">
       <module name="News_App.app" target="11" />
+      <module name="News_App.data" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>
