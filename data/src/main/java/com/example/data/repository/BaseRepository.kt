@@ -1,6 +1,6 @@
 package com.example.data.repository
 
-open class BaseRepository() {
+open class BaseRepository {
     val apiToken: String
-        get() = "533af958594143758318137469b41ba9"
+        get() = "fe93f70a0f544c2fb245d45e3f346432"
 }

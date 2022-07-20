@@ -47,6 +47,7 @@ class HomeViewModel  @Inject constructor(
                     errorMessageUtils.getErrorMessage(
                         throwable,
                         stateListener,
+                        error,
                         noInternet
                     )
                 }
