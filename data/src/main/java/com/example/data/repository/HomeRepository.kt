@@ -7,15 +7,16 @@ import com.example.domain.repository.IHomeRepository
 import io.reactivex.Observable
 import io.reactivex.Single
 import javax.inject.Inject
+import javax.inject.Named
 
-class HomeRepository @Inject constructor(
-    private val homeApi: HomeApi
-) : BaseRepository(), IHomeRepository {
+class HomeRepository(
+    private val homeApi: HomeApi,
+    private var fromTest : Boolean = false) : BaseRepository(fromTest) , IHomeRepository{
+    @Inject constructor(homeApi: HomeApi) : this(homeApi,fromTest =false)
 
-    override fun homeData(source:String) : Observable<HomeResponse?> {
+    override fun homeData(source: String): Observable<HomeResponse?> {
         return homeApi.getHomeData(source , apiToken).map {
             HomeResponseEntityMapper.mapper.toDomain(it)
         }
     }
-
 }
