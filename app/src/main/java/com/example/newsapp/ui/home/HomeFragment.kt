@@ -1,8 +1,10 @@
 package com.example.newsapp.ui.home
 
+import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import com.example.domain.util.AppConstants
 import com.example.newsapp.R
 import com.example.newsapp.databinding.FragmentHomeBinding
 import com.example.newsapp.databinding.ItemArticleBinding
@@ -21,7 +23,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
     private val adapter: BaseAdapter<ArticleModel,ItemArticleBinding> by lazy {
         BaseAdapter(R.layout.item_article,{
-
+            val bundle = Bundle()
+            bundle.putParcelable(AppConstants.ARTICLE_MODEL,it)
+            navController?.navigate(R.id.action_homeFragment_to_newsDetailsFragment , bundle)
         }){
             HomeViewHolder(it)
         }
@@ -57,6 +61,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             message -> message?.let {
             makeToast(getString(it),Toast.LENGTH_SHORT)
             }
+        }
+        viewModel.error.observe(viewLifecycleOwner){
+                message -> message?.let {
+            makeToast(it,Toast.LENGTH_SHORT)
+        }
         }
         viewModel.noInternet.observe(viewLifecycleOwner){
             it?.let {

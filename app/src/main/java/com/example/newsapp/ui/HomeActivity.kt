@@ -2,6 +2,7 @@ package com.example.newsapp.ui
 
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.GravityCompat
@@ -50,12 +51,26 @@ class HomeActivity : BaseActivity<ActivityMainBinding>()
             }
         }
         binding?.navigationView?.setNavigationItemSelectedListener(this)
+
+        navController?.addOnDestinationChangedListener { controller, destination, arguments ->
+            if (destination.id == R.id.webViewFragment
+            ) {
+                supportActionBar?.hide()
+                binding?.toolbar?.visibility = View.GONE
+            } else {
+                binding?.toolbar?.visibility = View.VISIBLE
+                setSupportActionBar(binding?.toolbar)
+                supportActionBar?.show()
+            }
+        }
+
     }
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         return NavigationUI.navigateUp(navController,binding?.drawer)
     }
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.nav_explore -> {
