@@ -1,4 +1,4 @@
-package com.example.newsapp.base
+package com.example.newsapp.ui.base
 
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager

@@ -7,5 +7,9 @@
     <string name="gallery">Gallery</string>
     <string name="wish_list">Wish List</string>
     <string name="e_magazine">E-Magazine</string>
+    <string name="not_connected_to_internet">No internet</string>
+    <string name="failed_to_load_data">Failed to load data</string>
+    <string name="not_authorize">You are not authorize please try later</string>
+
 
 </resources>
