@@ -1,6 +1,5 @@
 package com.example.data.di
 
-import com.example.data.util.MoshiConverterUtil
 import com.example.data.util.rx.AppSchedulerProvider
 import com.example.domain.use_case.base.SchedulerProvider
 import com.squareup.moshi.Moshi

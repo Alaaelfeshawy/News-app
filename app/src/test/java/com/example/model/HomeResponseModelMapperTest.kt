@@ -20,6 +20,7 @@ class HomeResponseModelMapperTest {
         Assert.assertEquals(homeResponseModel.source, homeResponseDomain.source)
         Assert.assertEquals(homeResponseModel.sortBy, homeResponseDomain.sortBy)
         Assert.assertEquals(homeResponseModel.status, homeResponseDomain.status)
+        Assert.assertEquals(homeResponseModel.articles?.get(0)?.id, homeResponseDomain.articles?.get(0)?.id)
         Assert.assertEquals(homeResponseModel.articles?.get(0)?.author, homeResponseDomain.articles?.get(0)?.author)
         Assert.assertEquals(homeResponseModel.articles?.get(0)?.url, homeResponseDomain.articles?.get(0)?.url)
         Assert.assertEquals(homeResponseModel.articles?.get(0)?.title, homeResponseDomain.articles?.get(0)?.title)

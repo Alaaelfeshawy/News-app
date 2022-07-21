@@ -1,6 +1,7 @@
 package com.example.domain.model.home
 
 data class Article (
+    var id : Long? =null,
     var author: String?= null,
     var title: String? = null,
     var description : String? = null,

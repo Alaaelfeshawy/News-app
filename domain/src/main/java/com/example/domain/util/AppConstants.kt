@@ -5,5 +5,6 @@ object AppConstants {
     const val BUILD_FLAVOR = "BUILD_FLAVOR"
     const val URL="URL"
     const val ARTICLE_MODEL="ARTICLE_MODEL"
+    const val DB_NAME="news_app"
 
 }

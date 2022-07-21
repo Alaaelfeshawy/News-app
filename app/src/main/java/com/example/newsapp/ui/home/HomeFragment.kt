@@ -36,15 +36,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override fun viewSetup() {
         _binding = viewDataBinding
-        viewModel.getHomeData()
         binding.articlesRecyclerView.adapter = adapter
         binding.tryAgain.setOnClickListener {viewModel.getHomeData()}
+        viewModel.getHomeData()
     }
 
     override fun viewModelSetup() {
         viewModel.homeData.observe(viewLifecycleOwner){
             it?.let {
                 adapter.setDataList(it)
+                viewModel.deleteArticles(it)
             }
         }
         viewModel.stateListener.loading.observe(viewLifecycleOwner){
@@ -70,13 +71,32 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         viewModel.noInternet.observe(viewLifecycleOwner){
             it?.let {
                 if(it){
-                    binding.noInternetLayout.visibility=View.VISIBLE
-                    binding.articlesRecyclerView.visibility=View.GONE
+                    getDataFromDbIfNoInternet()
+
                 }else{
                     binding.noInternetLayout.visibility=View.GONE
                     binding.articlesRecyclerView.visibility=View.VISIBLE
                 }
             }
+        }
+    }
+
+    private fun getDataFromDbIfNoInternet(){
+        if (viewModel.getDataFromDb != null){
+            viewModel.getDataFromDb?.observe(viewLifecycleOwner){
+                    articles: List<ArticleModel>? ->
+                if(articles.isNullOrEmpty()){
+                    binding.noInternetLayout.visibility=View.VISIBLE
+                    binding.articlesRecyclerView.visibility=View.GONE
+                }else{
+                    binding.noInternetLayout.visibility=View.GONE
+                    binding.articlesRecyclerView.visibility=View.VISIBLE
+                    articles.let { it1 -> adapter.setDataList(it1.toSet().toList()) }
+                }
+            }
+        }else {
+            binding.noInternetLayout.visibility=View.VISIBLE
+            binding.articlesRecyclerView.visibility=View.GONE
         }
     }
 }

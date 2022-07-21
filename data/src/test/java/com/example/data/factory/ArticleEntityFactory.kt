@@ -8,6 +8,7 @@ object ArticleEntityFactory {
 
     fun generateDataForArticleEntity(): ArticleEntity {
         return ArticleEntity(
+            1,
             "author",
             "title",
             "des",
@@ -19,6 +20,7 @@ object ArticleEntityFactory {
 
     fun generateDataForArticleDomain(): Article {
         return Article(
+            1,
             "author",
             "title",
             "des",
