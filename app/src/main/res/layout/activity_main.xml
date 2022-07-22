@@ -5,11 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.drawerlayout.widget.DrawerLayout
-        android:id="@+id/drawer_layout"
+        android:id="@+id/drawer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        tools:openDrawer="start">
+        android:fitsSystemWindows="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -18,12 +17,15 @@
             <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/app_bar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:theme="@style/AppTheme.AppBarOverlay">
 
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/black"
+                    app:popupTheme="@style/AppTheme.PopupOverlay"
                     />
             </com.google.android.material.appbar.AppBarLayout>
 
@@ -32,9 +34,15 @@
                 android:name="androidx.navigation.fragment.NavHostFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/app_bar"
                 app:defaultNavHost="true"
                 app:navGraph="@navigation/nav_graph" />
         </RelativeLayout>
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/navigation_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:headerLayout="@layout/nav_header"
+            app:menu="@menu/drawer_menu" />
     </androidx.drawerlayout.widget.DrawerLayout>
 </layout>

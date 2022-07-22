@@ -1,10 +1,11 @@
-package com.example.newsapp.base
+package com.example.newsapp.ui.base
 
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -57,6 +58,10 @@ abstract class BaseFragment<T : ViewDataBinding?> : Fragment() {
 
     fun hideKeyboard() {
         baseActivity?.hideKeyboard()
+    }
+
+    fun makeToast(message:String , length:Int){
+        Toast.makeText(baseActivity, message , length).show()
     }
 
     override fun onDestroyView() {
