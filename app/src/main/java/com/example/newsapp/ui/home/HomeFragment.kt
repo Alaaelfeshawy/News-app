@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.domain.util.AppConstants
 import com.example.newsapp.R
 import com.example.newsapp.databinding.FragmentHomeBinding
@@ -18,7 +19,7 @@ import com.example.newsapp.ui.util.Util
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment<FragmentHomeBinding>() {
+class HomeFragment : BaseFragment<FragmentHomeBinding>() , SwipeRefreshLayout.OnRefreshListener  {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private val viewModel: HomeViewModel by lazy {
@@ -42,11 +43,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         viewModel.getHomeData()
         binding.articlesRecyclerView.adapter = adapter
         binding.tryAgain.setOnClickListener {viewModel.getHomeData()}
+        binding.mainSwipeRefreshLayout.setOnRefreshListener(this)
+        binding.mainSwipeRefreshLayout.setColorSchemeResources(
+            R.color.black,
+            R.color.black,
+            R.color.black,
+            R.color.black
+        )
     }
 
     override fun viewModelSetup() {
         viewModel.homeData.observe(viewLifecycleOwner){
             it?.let {
+                binding.articlesRecyclerView.visibility=View.VISIBLE
                 adapter.setDataList(it)
             }
         }
@@ -65,6 +74,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             it?.let {
                if(it){
                    binding.noInternetLayout.visibility=View.GONE
+                   binding.articlesRecyclerView.visibility=View.GONE
                    Util.showLoading(requireContext())
                }else{
                    Util.dismissLoading()
@@ -92,5 +102,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 }
             }
         }
+    }
+
+    override fun onRefresh() {
+        binding.mainSwipeRefreshLayout.isRefreshing = true
+        viewModel.getHomeData()
+        binding.mainSwipeRefreshLayout.isRefreshing = false
     }
 }
