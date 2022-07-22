@@ -1,8 +1,11 @@
 package com.example.newsapp.ui.home
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import com.example.domain.util.AppConstants
 import com.example.newsapp.R
@@ -19,7 +22,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private val viewModel: HomeViewModel by lazy {
-        ViewModelProvider(this)[HomeViewModel::class.java]
+        ViewModelProvider(requireActivity())[HomeViewModel::class.java]
     }
     private val adapter: BaseAdapter<ArticleModel,ItemArticleBinding> by lazy {
         BaseAdapter(R.layout.item_article,{
@@ -45,6 +48,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         viewModel.homeData.observe(viewLifecycleOwner){
             it?.let {
                 adapter.setDataList(it)
+            }
+        }
+        viewModel.filteredList.observe(viewLifecycleOwner){
+            value ->
+            if(value?.first.isNullOrEmpty()){
+                binding.emptyResults.visibility=View.VISIBLE
+                binding.articlesRecyclerView.visibility=View.GONE
+            }else{
+                binding.emptyResults.visibility=View.GONE
+                binding.articlesRecyclerView.visibility=View.VISIBLE
+                value?.first?.let { adapter.setDataList(it, value.second) }
             }
         }
         viewModel.stateListener.loading.observe(viewLifecycleOwner){
