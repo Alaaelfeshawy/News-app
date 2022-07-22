@@ -6,6 +6,8 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.GravityCompat
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -13,6 +15,8 @@ import androidx.navigation.ui.NavigationUI
 import com.example.newsapp.R
 import com.example.newsapp.ui.base.BaseActivity
 import com.example.newsapp.databinding.ActivityMainBinding
+import com.example.newsapp.ui.home.HomeViewModel
+import com.example.newsapp.ui.news_details.NewsDetailsFragment
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,12 +26,21 @@ class HomeActivity : BaseActivity<ActivityMainBinding>()
     ,NavigationView.OnNavigationItemSelectedListener
 {
     private  var binding: ActivityMainBinding? = null
-    var appBarConfiguration: AppBarConfiguration? = null
+    private var appBarConfiguration: AppBarConfiguration? = null
+
+    private val viewModel: HomeViewModel by lazy {
+        ViewModelProvider(this)[HomeViewModel::class.java]
+    }
+
     override val layoutId: Int
         get() = R.layout.activity_main
 
     override fun activityCreated() {
         binding = viewDataBinding
+        setUpNavigation()
+    }
+
+    private fun setUpNavigation(){
         setSupportActionBar(binding?.toolbar)
         setTitle(R.string.app_name)
         appBarConfiguration = AppBarConfiguration.Builder(R.id.homeFragment)
@@ -51,7 +64,6 @@ class HomeActivity : BaseActivity<ActivityMainBinding>()
             }
         }
         binding?.navigationView?.setNavigationItemSelectedListener(this)
-
         navController?.addOnDestinationChangedListener { controller, destination, arguments ->
             if (destination.id == R.id.webViewFragment
             ) {
@@ -63,7 +75,6 @@ class HomeActivity : BaseActivity<ActivityMainBinding>()
                 supportActionBar?.show()
             }
         }
-
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -105,7 +116,7 @@ class HomeActivity : BaseActivity<ActivityMainBinding>()
                 return false
             }
             override fun onQueryTextChange(s: String): Boolean {
-                //TODO Search
+                viewModel.search(s)
                 return false
             }
         })
@@ -120,4 +131,20 @@ class HomeActivity : BaseActivity<ActivityMainBinding>()
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+    private val currentFragment: Fragment?
+        get() {
+            val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+            return navHostFragment?.childFragmentManager?.fragments?.get(0)
+        }
+
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        when (currentFragment) {
+            is NewsDetailsFragment -> {
+                menu.findItem(R.id.action_search).isVisible = false
+            }
+        }
+        return super.onPrepareOptionsMenu(menu)
+    }
+
 }

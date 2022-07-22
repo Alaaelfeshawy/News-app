@@ -7,7 +7,6 @@ import com.example.newsapp.model.home.ArticleModel
 import com.example.newsapp.model.home.response.HomeResponseModelMapper
 import com.example.newsapp.ui.base.BaseViewModel
 import com.example.newsapp.util.ErrorMessageUtils
-import com.example.newsapp.util.NetworkUtils
 import com.example.newsapp.util.SingleLiveEvent
 import com.example.newsapp.util.StateListener
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,7 +24,8 @@ class HomeViewModel  @Inject constructor(
 ) {
      val homeData: SingleLiveEvent<List<ArticleModel>> = SingleLiveEvent()
      val error: SingleLiveEvent<String> = SingleLiveEvent()
-    val noInternet: SingleLiveEvent<Boolean> = SingleLiveEvent()
+     val noInternet: SingleLiveEvent<Boolean> = SingleLiveEvent()
+     var filteredList = SingleLiveEvent<Pair<ArrayList<ArticleModel>,String>>()
 
     fun getHomeData(){
         stateListener.loading.value = true
@@ -61,5 +61,15 @@ class HomeViewModel  @Inject constructor(
 
 
 
+    }
+
+    fun search(query:String){
+        if(!homeData.value?.toList().isNullOrEmpty()){
+            val list = homeData.value?.toList()?.filter {
+                it.title?.contains(query,true) == true
+            } as ArrayList<ArticleModel>
+            val pair = Pair(list,query)
+            filteredList.value = pair
+        }
     }
 }

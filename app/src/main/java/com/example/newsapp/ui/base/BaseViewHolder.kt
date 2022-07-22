@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 abstract class BaseViewHolder<T : ViewBinding?, M>(binding: ViewBinding) :
     RecyclerView.ViewHolder(binding.root) {
     open val binding: T = binding as T
-    abstract fun onBind(position: Int, model: M)
+    abstract fun onBind(position: Int, model: M , x :String?= null)
     abstract fun onDetached()
     abstract fun onViewRecycled()
 }
